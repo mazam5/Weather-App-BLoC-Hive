@@ -1,21 +1,25 @@
+// package level imports
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:weather/weather.dart';
-import 'package:weather_app/application/blocs/weather/weather_bloc.dart';
-import 'package:weather_app/core/firebase_options.dart';
-import 'package:weather_app/presentation/routes/app_router.dart';
 
+// local imports
 import 'application/blocs/auth/auth_cubit.dart';
+import 'application/blocs/weather/weather_bloc.dart';
+import 'core/firebase_options.dart';
+import 'domain/entities/my_weather.dart';
+import 'domain/repositories/boxes.dart';
+import 'presentation/routes/app_router.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   // Initialize Hive
   await Hive.initFlutter();
-  await Hive.openBox<Weather>('weather');
-  await Hive.openBox('settings');
+  Hive.registerAdapter(MyWeatherAdapter());
+  weatherBox = await Hive.openBox<MyWeather>('weather');
+  settingsBox = await Hive.openBox('settings');
 
   // Firebase initialization
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
@@ -50,4 +54,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-// dart run build_runner build --delete-conflicting-outputs

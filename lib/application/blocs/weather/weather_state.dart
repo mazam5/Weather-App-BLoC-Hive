@@ -16,7 +16,7 @@ class WeatherLoading extends WeatherState {
 }
 
 class WeatherSuccess extends WeatherState {
-  final Weather weather;
+  final MyWeather weather;
 
   const WeatherSuccess(this.weather);
 

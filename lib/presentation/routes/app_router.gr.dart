@@ -8,21 +8,22 @@
 // coverage:ignore-file
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:auto_route/auto_route.dart' as _i6;
+import 'package:auto_route/auto_route.dart' as _i7;
 import 'package:weather_app/presentation/screens/auth/signin_screen.dart'
     as _i3;
 import 'package:weather_app/presentation/screens/auth/signup_screen.dart'
     as _i4;
-import 'package:weather_app/presentation/screens/home/home_screen.dart' as _i5;
+import 'package:weather_app/presentation/screens/home/home_screen.dart' as _i6;
+import 'package:weather_app/presentation/screens/loading/loading.dart' as _i2;
 import 'package:weather_app/presentation/screens/location/location_screen.dart'
     as _i1;
 import 'package:weather_app/presentation/screens/splash/splash_screen.dart'
-    as _i2;
+    as _i5;
 
 /// generated route for
 /// [_i1.AddCity]
-class AddCity extends _i6.PageRouteInfo<void> {
-  const AddCity({List<_i6.PageRouteInfo>? children})
+class AddCity extends _i7.PageRouteInfo<void> {
+  const AddCity({List<_i7.PageRouteInfo>? children})
       : super(
           AddCity.name,
           initialChildren: children,
@@ -30,7 +31,7 @@ class AddCity extends _i6.PageRouteInfo<void> {
 
   static const String name = 'AddCity';
 
-  static _i6.PageInfo page = _i6.PageInfo(
+  static _i7.PageInfo page = _i7.PageInfo(
     name,
     builder: (data) {
       return const _i1.AddCity();
@@ -40,8 +41,8 @@ class AddCity extends _i6.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i2.LoadingRoute]
-class LoadingRoute extends _i6.PageRouteInfo<void> {
-  const LoadingRoute({List<_i6.PageRouteInfo>? children})
+class LoadingRoute extends _i7.PageRouteInfo<void> {
+  const LoadingRoute({List<_i7.PageRouteInfo>? children})
       : super(
           LoadingRoute.name,
           initialChildren: children,
@@ -49,7 +50,7 @@ class LoadingRoute extends _i6.PageRouteInfo<void> {
 
   static const String name = 'LoadingRoute';
 
-  static _i6.PageInfo page = _i6.PageInfo(
+  static _i7.PageInfo page = _i7.PageInfo(
     name,
     builder: (data) {
       return const _i2.LoadingRoute();
@@ -59,8 +60,8 @@ class LoadingRoute extends _i6.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i3.SignInForm]
-class SignInForm extends _i6.PageRouteInfo<void> {
-  const SignInForm({List<_i6.PageRouteInfo>? children})
+class SignInForm extends _i7.PageRouteInfo<void> {
+  const SignInForm({List<_i7.PageRouteInfo>? children})
       : super(
           SignInForm.name,
           initialChildren: children,
@@ -68,7 +69,7 @@ class SignInForm extends _i6.PageRouteInfo<void> {
 
   static const String name = 'SignInForm';
 
-  static _i6.PageInfo page = _i6.PageInfo(
+  static _i7.PageInfo page = _i7.PageInfo(
     name,
     builder: (data) {
       return const _i3.SignInForm();
@@ -78,8 +79,8 @@ class SignInForm extends _i6.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i4.SignUpForm]
-class SignUpForm extends _i6.PageRouteInfo<void> {
-  const SignUpForm({List<_i6.PageRouteInfo>? children})
+class SignUpForm extends _i7.PageRouteInfo<void> {
+  const SignUpForm({List<_i7.PageRouteInfo>? children})
       : super(
           SignUpForm.name,
           initialChildren: children,
@@ -87,7 +88,7 @@ class SignUpForm extends _i6.PageRouteInfo<void> {
 
   static const String name = 'SignUpForm';
 
-  static _i6.PageInfo page = _i6.PageInfo(
+  static _i7.PageInfo page = _i7.PageInfo(
     name,
     builder: (data) {
       return const _i4.SignUpForm();
@@ -96,9 +97,28 @@ class SignUpForm extends _i6.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i5.WeatherScreen]
-class WeatherRoute extends _i6.PageRouteInfo<void> {
-  const WeatherRoute({List<_i6.PageRouteInfo>? children})
+/// [_i5.SplashScreen]
+class SplashRoute extends _i7.PageRouteInfo<void> {
+  const SplashRoute({List<_i7.PageRouteInfo>? children})
+      : super(
+          SplashRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'SplashRoute';
+
+  static _i7.PageInfo page = _i7.PageInfo(
+    name,
+    builder: (data) {
+      return const _i5.SplashScreen();
+    },
+  );
+}
+
+/// generated route for
+/// [_i6.WeatherScreen]
+class WeatherRoute extends _i7.PageRouteInfo<void> {
+  const WeatherRoute({List<_i7.PageRouteInfo>? children})
       : super(
           WeatherRoute.name,
           initialChildren: children,
@@ -106,10 +126,10 @@ class WeatherRoute extends _i6.PageRouteInfo<void> {
 
   static const String name = 'WeatherRoute';
 
-  static _i6.PageInfo page = _i6.PageInfo(
+  static _i7.PageInfo page = _i7.PageInfo(
     name,
     builder: (data) {
-      return const _i5.WeatherScreen();
+      return const _i6.WeatherScreen();
     },
   );
 }

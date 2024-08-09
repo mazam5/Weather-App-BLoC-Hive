@@ -17,7 +17,7 @@ class _AddCityState extends State<AddCity> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Add City'),
+        title: const Text('Change City'),
       ),
       body: BlocBuilder<WeatherBloc, WeatherState>(
         builder: (context, state) {
@@ -76,10 +76,11 @@ class _AddCityState extends State<AddCity> {
                       ),
                     ),
                     const SizedBox(height: 16),
-                    const Text('Popular Cities'),
+                    const Text('Popular Cities',
+                        style: TextStyle(fontSize: 18)),
                     const SizedBox(height: 16),
                     Wrap(
-                      spacing: 8,
+                      spacing: 6,
                       children: [
                         for (var city in popularCities)
                           ChoiceChip(

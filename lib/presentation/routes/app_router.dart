@@ -5,10 +5,9 @@ import 'package:weather_app/presentation/routes/app_router.gr.dart';
 class AppRouter extends RootStackRouter {
   @override
   List<AutoRoute> get routes => [
-        AutoRoute(page: LoadingRoute.page, initial: true),
-        AutoRoute(
-          page: SignInForm.page,
-        ),
+        AutoRoute(page: SplashRoute.page, initial: true),
+        AutoRoute(page: LoadingRoute.page),
+        AutoRoute(page: SignInForm.page),
         AutoRoute(page: SignUpForm.page),
         AutoRoute(page: WeatherRoute.page),
         AutoRoute(page: AddCity.page),

@@ -2,10 +2,11 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:weather_app/application/blocs/auth/auth_cubit.dart';
-import 'package:weather_app/application/blocs/weather/weather_bloc.dart';
-import 'package:weather_app/domain/services/location_service.dart';
-import 'package:weather_app/presentation/routes/app_router.gr.dart';
+
+import '../../../application/blocs/auth/auth_cubit.dart';
+import '../../../application/blocs/weather/weather_bloc.dart';
+import '../../../domain/services/location_service.dart';
+import '../../routes/app_router.gr.dart';
 
 @RoutePage()
 class WeatherScreen extends StatefulWidget {
@@ -18,7 +19,6 @@ class WeatherScreen extends StatefulWidget {
 class _WeatherScreenState extends State<WeatherScreen> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getWeatherAndLocation();
   }
@@ -56,7 +56,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                             },
                             child: const Text('No'),
                           ),
-                          ElevatedButton(
+                          OutlinedButton(
                             onPressed: () {
                               authCubit.logout(context);
                             },
@@ -77,158 +77,158 @@ class _WeatherScreenState extends State<WeatherScreen> {
           child: BlocBuilder<WeatherBloc, WeatherState>(
             builder: (context, state) {
               if (state is WeatherSuccess) {
-                return SizedBox(
-                  width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          Text(
-                            '📍 ${state.weather.areaName}',
-                            style: const TextStyle(fontWeight: FontWeight.w300),
-                          ),
-                          const Spacer(),
-                          TextButton(
-                            onPressed: () {
-                              AutoRouter.of(context).push(const AddCity());
-                            },
-                            child: const Text('Change Location'),
-                          )
-                        ],
-                      ),
-                      const SizedBox(height: 10),
-                      const Text(
-                        "Today's Weather",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 24),
-                      ),
-                      const SizedBox(height: 10),
-                      Center(
-                        child: Text(
-                          '🌡️ ${state.weather.temperature}',
-                          style: const TextStyle(
-                              fontWeight: FontWeight.w600, fontSize: 40),
+                return GestureDetector(
+                  onVerticalDragDown: (details) {
+                    // getWeatherAndLocation();
+                  },
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Text(
+                              '📍 ${state.weather.name}',
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 20),
+                            ),
+                            IconButton(
+                              onPressed: () {
+                                getWeatherAndLocation();
+                              },
+                              icon: const Icon(Icons.refresh),
+                            ),
+                            const Spacer(),
+                            FilledButton.icon(
+                              onPressed: () {
+                                AutoRouter.of(context).push(const AddCity());
+                              },
+                              icon: const Icon(Icons.change_circle),
+                              label: const Text('Change'),
+                            )
+                          ],
                         ),
-                      ),
-                      Center(
-                        child: Text(
-                          '${state.weather.weatherMain}',
-                          style: const TextStyle(
-                              fontWeight: FontWeight.w600, fontSize: 30),
+                        const SizedBox(height: 10),
+                        const Text(
+                          "Today's Weather",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 24),
                         ),
-                      ),
-                      Center(
-                        child: Text(
-                          '${state.weather.weatherDescription}',
-                          style: const TextStyle(
-                              fontWeight: FontWeight.w600, fontSize: 25),
-                        ),
-                      ),
-                      Center(
-                        child: Text(
-                          DateFormat('h:mm a, EEEE d-MMM')
-                              .format(state.weather.date as DateTime),
-                          style: const TextStyle(
-                              fontWeight: FontWeight.w600, fontSize: 25),
-                        ),
-                      ),
-                      const SizedBox(height: 10),
-                      const Divider(),
-                      const SizedBox(height: 10),
-                      Row(children: [
-                        Expanded(
-                          child: Column(
-                            children: [
-                              const Text('Sunrise'),
-                              Text(
-                                  '🌅 ${DateFormat('h:mm a').format(state.weather.sunrise!)}'),
-                            ],
+                        const SizedBox(height: 10),
+                        Center(
+                          child: Text(
+                            '🌡️ ${state.weather.temp}°C',
+                            style: const TextStyle(
+                                fontWeight: FontWeight.w600, fontSize: 40),
                           ),
                         ),
-                        Expanded(
-                          child: Column(
-                            children: [
-                              const Text('Sunset'),
-                              Text(
-                                  '🌇 ${DateFormat('h:mm a').format(state.weather.sunset!)}'),
-                            ],
+                        Center(
+                          child: Text(
+                            state.weather.main,
+                            style: const TextStyle(
+                                fontWeight: FontWeight.w600, fontSize: 30),
                           ),
                         ),
-                      ]),
-                      const SizedBox(height: 10),
-                      const Divider(),
-                      const SizedBox(height: 10),
-                      Row(children: [
-                        Expanded(
-                          child: Column(
-                            children: [
-                              const Text('Wind'),
-                              Text('🌬️ ${state.weather.windSpeed} km/h'),
-                            ],
+                        Center(
+                          child: Text(
+                            state.weather.description,
+                            style: const TextStyle(
+                                fontWeight: FontWeight.w600, fontSize: 25),
                           ),
                         ),
-                        Expanded(
-                          child: Column(
-                            children: [
-                              const Text('Humidity'),
-                              Text('💧 ${state.weather.humidity}%'),
-                            ],
+                        Center(
+                          child: Text(
+                            DateFormat('h:mm a, EEEE d-MMM')
+                                .format(state.weather.dt),
+                            style: const TextStyle(
+                                fontWeight: FontWeight.w600, fontSize: 25),
                           ),
                         ),
-                        Expanded(
-                          child: Column(
-                            children: [
-                              const Text('Pressure'),
-                              Text('🧭 ${state.weather.pressure} hPa'),
-                            ],
+                        const SizedBox(height: 10),
+                        const Divider(),
+                        const SizedBox(height: 10),
+                        Row(children: [
+                          Expanded(
+                            child: Column(
+                              children: [
+                                const Text('Sunrise'),
+                                Text(
+                                    '🌅 ${DateFormat('h:mm a').format(state.weather.sunrise)}'),
+                              ],
+                            ),
                           ),
-                        ),
-                      ]),
-                      const SizedBox(height: 10),
-                      const Divider(),
-                      const SizedBox(height: 10),
-                      Row(children: [
-                        Expanded(
-                          child: Column(
-                            children: [
-                              const Text('Feels Like'),
-                              Text('🌡️ ${state.weather.tempFeelsLike}'),
-                            ],
+                          Expanded(
+                            child: Column(
+                              children: [
+                                const Text('Sunset'),
+                                Text(
+                                    '🌇 ${DateFormat('h:mm a').format(state.weather.sunset)}'),
+                              ],
+                            ),
                           ),
-                        ),
-                        Expanded(
-                          child: Column(
-                            children: [
-                              const Text('Min Temp'),
-                              Text('🌡️ ${state.weather.tempMin}'),
-                            ],
+                        ]),
+                        const SizedBox(height: 10),
+                        const Divider(),
+                        const SizedBox(height: 10),
+                        Row(children: [
+                          Expanded(
+                            child: Column(
+                              children: [
+                                const Text('Wind'),
+                                Text('🌬️ ${state.weather.windSpeed} km/h'),
+                              ],
+                            ),
                           ),
-                        ),
-                        Expanded(
-                          child: Column(
-                            children: [
-                              const Text('Max Temp'),
-                              Text('🌡️ ${state.weather.tempMax}'),
-                            ],
+                          Expanded(
+                            child: Column(
+                              children: [
+                                const Text('Humidity'),
+                                Text('💧 ${state.weather.humidity}%'),
+                              ],
+                            ),
                           ),
-                        ),
-                      ]),
-                    ],
-                  ),
-                );
-              } else if (state is WeatherFailure) {
-                return Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Text('Failed to fetch weather data'),
-                      TextButton(
-                        onPressed: () {},
-                        child: const Text('Retry'),
-                      ),
-                    ],
+                          Expanded(
+                            child: Column(
+                              children: [
+                                const Text('Pressure'),
+                                Text('🧭 ${state.weather.pressure} hPa'),
+                              ],
+                            ),
+                          ),
+                        ]),
+                        const SizedBox(height: 10),
+                        const Divider(),
+                        const SizedBox(height: 10),
+                        Row(children: [
+                          Expanded(
+                            child: Column(
+                              children: [
+                                const Text('Feels Like'),
+                                Text('🌡️ ${state.weather.feelsLike}'),
+                              ],
+                            ),
+                          ),
+                          Expanded(
+                            child: Column(
+                              children: [
+                                const Text('Min Temp'),
+                                Text('🌡️ ${state.weather.tempMin}'),
+                              ],
+                            ),
+                          ),
+                          Expanded(
+                            child: Column(
+                              children: [
+                                const Text('Max Temp'),
+                                Text('🌡️ ${state.weather.tempMax}'),
+                              ],
+                            ),
+                          ),
+                        ]),
+                      ],
+                    ),
                   ),
                 );
               } else if (state is WeatherLoading) {
@@ -242,15 +242,24 @@ class _WeatherScreenState extends State<WeatherScreen> {
                     ],
                   ),
                 );
-              } else {
-                return const Center(
+              } else if (state is WeatherFailure) {
+                return Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      CircularProgressIndicator(),
-                      Text('Please Wait...'),
+                      const Text('Try entering a city name'),
+                      TextButton(
+                        onPressed: () {
+                          getWeatherAndLocation();
+                        },
+                        child: const Text('Retry'),
+                      ),
                     ],
                   ),
+                );
+              } else {
+                return const Center(
+                  child: CircularProgressIndicator(),
                 );
               }
             },
