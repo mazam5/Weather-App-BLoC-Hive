@@ -6,12 +6,13 @@ void _showErrorDialog(String message, BuildContext context) {
   showDialog(
     context: context,
     builder: (context) => AlertDialog(
-      title: const Text('Error'),
+      title: const Text('Oops!'),
       content: Text(message),
       actions: [
         TextButton(
-          onPressed: () => Navigator.of(context).pop(),
-          child: const Text('OK'),
+          onPressed: () =>
+              {Navigator.of(context).pop(), Geolocator.openLocationSettings()},
+          child: const Text('Open'),
         ),
       ],
     ),

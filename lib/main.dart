@@ -8,7 +8,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'application/blocs/auth/auth_cubit.dart';
 import 'application/blocs/weather/weather_bloc.dart';
 import 'core/firebase_options.dart';
-import 'domain/entities/my_weather.dart';
+import 'domain/entities/weather_model.dart';
 import 'domain/repositories/boxes.dart';
 import 'presentation/routes/app_router.dart';
 
@@ -17,8 +17,8 @@ void main() async {
 
   // Initialize Hive
   await Hive.initFlutter();
-  Hive.registerAdapter(MyWeatherAdapter());
-  weatherBox = await Hive.openBox<MyWeather>('weather');
+  Hive.registerAdapter(WeatherModelAdapter());
+  weatherBox = await Hive.openBox<WeatherModel>('weather');
   settingsBox = await Hive.openBox('settings');
 
   // Firebase initialization

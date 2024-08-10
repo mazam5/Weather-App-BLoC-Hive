@@ -1,7 +1,9 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:weather_app/domain/repositories/boxes.dart';
 
 import '../../../application/blocs/auth/auth_cubit.dart';
 import '../../../application/blocs/weather/weather_bloc.dart';
@@ -25,8 +27,14 @@ class _WeatherScreenState extends State<WeatherScreen> {
 
   void getWeatherAndLocation() async {
     final weatherBloc = context.read<WeatherBloc>();
-    final position = await determineLocation(context);
-    weatherBloc.add(FetchWeatherByGeolocation(position));
+    try {
+      final position = await determineLocation(context);
+      weatherBloc.add(FetchWeatherByGeolocation(position));
+    } catch (e) {
+      // weatherBox = await Hive.openBox('weather');
+      // final weather = weatherBox.get('current');
+      print(e);
+    }
   }
 
   @override
@@ -81,153 +89,236 @@ class _WeatherScreenState extends State<WeatherScreen> {
                   onVerticalDragDown: (details) {
                     // getWeatherAndLocation();
                   },
-                  child: SizedBox(
-                    width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            Text(
-                              '📍 ${state.weather.name}',
+                  child: SingleChildScrollView(
+                    child: SizedBox(
+                      width: MediaQuery.of(context).size.width,
+                      height: MediaQuery.of(context).size.height,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              Text(
+                                '📍 ${state.weather.name} ${state.weather.country}',
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 20),
+                              ),
+                              IconButton(
+                                onPressed: () {
+                                  getWeatherAndLocation();
+                                },
+                                icon: const Icon(Icons.refresh),
+                              ),
+                              const Spacer(),
+                              FilledButton.icon(
+                                onPressed: () {
+                                  AutoRouter.of(context).push(const AddCity());
+                                },
+                                icon: const Icon(Icons.change_circle),
+                                label: const Text('Change'),
+                              )
+                            ],
+                          ),
+                          Center(
+                            child: Container(
+                              height: 50,
+                              width: 50,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                border: Border.all(
+                                  color: Colors.grey,
+                                  width: 2,
+                                ),
+                                color: Colors.black,
+                              ),
+                              child: Image.network(
+                                  'https://openweathermap.org/img/wn/${state.weather.icon}.png'),
+                            ),
+                          ),
+                          const SizedBox(height: 10),
+                          Center(
+                            child: Text(
+                              '🌡️${state.weather.temp}°C',
                               style: const TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 20),
-                            ),
-                            IconButton(
-                              onPressed: () {
-                                getWeatherAndLocation();
-                              },
-                              icon: const Icon(Icons.refresh),
-                            ),
-                            const Spacer(),
-                            FilledButton.icon(
-                              onPressed: () {
-                                AutoRouter.of(context).push(const AddCity());
-                              },
-                              icon: const Icon(Icons.change_circle),
-                              label: const Text('Change'),
-                            )
-                          ],
-                        ),
-                        const SizedBox(height: 10),
-                        const Text(
-                          "Today's Weather",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 24),
-                        ),
-                        const SizedBox(height: 10),
-                        Center(
-                          child: Text(
-                            '🌡️ ${state.weather.temp}°C',
-                            style: const TextStyle(
-                                fontWeight: FontWeight.w600, fontSize: 40),
-                          ),
-                        ),
-                        Center(
-                          child: Text(
-                            state.weather.main,
-                            style: const TextStyle(
-                                fontWeight: FontWeight.w600, fontSize: 30),
-                          ),
-                        ),
-                        Center(
-                          child: Text(
-                            state.weather.description,
-                            style: const TextStyle(
-                                fontWeight: FontWeight.w600, fontSize: 25),
-                          ),
-                        ),
-                        Center(
-                          child: Text(
-                            DateFormat('h:mm a, EEEE d-MMM')
-                                .format(state.weather.dt),
-                            style: const TextStyle(
-                                fontWeight: FontWeight.w600, fontSize: 25),
-                          ),
-                        ),
-                        const SizedBox(height: 10),
-                        const Divider(),
-                        const SizedBox(height: 10),
-                        Row(children: [
-                          Expanded(
-                            child: Column(
-                              children: [
-                                const Text('Sunrise'),
-                                Text(
-                                    '🌅 ${DateFormat('h:mm a').format(state.weather.sunrise)}'),
-                              ],
+                                  fontWeight: FontWeight.w600, fontSize: 40),
                             ),
                           ),
-                          Expanded(
-                            child: Column(
-                              children: [
-                                const Text('Sunset'),
-                                Text(
-                                    '🌇 ${DateFormat('h:mm a').format(state.weather.sunset)}'),
-                              ],
+                          Center(
+                            child: Text(
+                              state.weather.main,
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.w600, fontSize: 30),
                             ),
                           ),
-                        ]),
-                        const SizedBox(height: 10),
-                        const Divider(),
-                        const SizedBox(height: 10),
-                        Row(children: [
-                          Expanded(
-                            child: Column(
-                              children: [
-                                const Text('Wind'),
-                                Text('🌬️ ${state.weather.windSpeed} km/h'),
-                              ],
+                          Center(
+                            child: Text(
+                              state.weather.description,
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.w600, fontSize: 25),
                             ),
                           ),
-                          Expanded(
-                            child: Column(
-                              children: [
-                                const Text('Humidity'),
-                                Text('💧 ${state.weather.humidity}%'),
-                              ],
+                          Center(
+                            child: Text(
+                              DateFormat('h:mm a, EEEE d-MMM')
+                                  .format(state.weather.dt),
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.w600, fontSize: 20),
                             ),
                           ),
-                          Expanded(
-                            child: Column(
-                              children: [
-                                const Text('Pressure'),
-                                Text('🧭 ${state.weather.pressure} hPa'),
-                              ],
+                          const SizedBox(height: 10),
+                          const Divider(),
+                          const SizedBox(height: 10),
+                          Row(children: [
+                            Expanded(
+                              child: Column(
+                                children: [
+                                  const Text('Sunrise'),
+                                  Text(
+                                      '🌅 ${DateFormat('h:mm a').format(state.weather.sunrise)}'),
+                                ],
+                              ),
                             ),
-                          ),
-                        ]),
-                        const SizedBox(height: 10),
-                        const Divider(),
-                        const SizedBox(height: 10),
-                        Row(children: [
-                          Expanded(
-                            child: Column(
-                              children: [
-                                const Text('Feels Like'),
-                                Text('🌡️ ${state.weather.feelsLike}'),
-                              ],
+                            Expanded(
+                              child: Column(
+                                children: [
+                                  const Text('Sunset'),
+                                  Text(
+                                      '🌇 ${DateFormat('h:mm a').format(state.weather.sunset)}'),
+                                ],
+                              ),
                             ),
-                          ),
-                          Expanded(
-                            child: Column(
-                              children: [
-                                const Text('Min Temp'),
-                                Text('🌡️ ${state.weather.tempMin}'),
-                              ],
+                          ]),
+                          const SizedBox(height: 10),
+                          const Divider(),
+                          const SizedBox(height: 10),
+                          Row(children: [
+                            Expanded(
+                              child: Column(
+                                children: [
+                                  const Text('Wind'),
+                                  Text('🌬️ ${state.weather.windSpeed} km/h'),
+                                ],
+                              ),
                             ),
-                          ),
-                          Expanded(
-                            child: Column(
-                              children: [
-                                const Text('Max Temp'),
-                                Text('🌡️ ${state.weather.tempMax}'),
-                              ],
+                            Expanded(
+                              child: Column(
+                                children: [
+                                  const Text('Humidity'),
+                                  Text('💧 ${state.weather.humidity}%'),
+                                ],
+                              ),
                             ),
+                            Expanded(
+                              child: Column(
+                                children: [
+                                  const Text('Pressure'),
+                                  Text('🧭 ${state.weather.pressure} hPa'),
+                                ],
+                              ),
+                            ),
+                          ]),
+                          const SizedBox(height: 10),
+                          const Divider(),
+                          const SizedBox(height: 10),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Column(
+                                  children: [
+                                    const Text('Feels Like'),
+                                    Text('🌡️ ${state.weather.feelsLike}°C'),
+                                  ],
+                                ),
+                              ),
+                              Expanded(
+                                child: Column(
+                                  children: [
+                                    const Text('Min Temp'),
+                                    Text('🌡️ ${state.weather.tempMin}°C'),
+                                  ],
+                                ),
+                              ),
+                              Expanded(
+                                child: Column(
+                                  children: [
+                                    const Text('Max Temp'),
+                                    Text('🌡️ ${state.weather.tempMax}°C'),
+                                  ],
+                                ),
+                              ),
+                            ],
                           ),
-                        ]),
-                      ],
+                          const SizedBox(height: 10),
+                          const Divider(),
+                          const SizedBox(height: 10),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Column(
+                                  children: [
+                                    const Text('Visibility'),
+                                    Text('👁️ ${state.weather.visibility} m'),
+                                  ],
+                                ),
+                              ),
+                              Expanded(
+                                child: Column(
+                                  children: [
+                                    const Text('Cloudiness'),
+                                    Text('☁️ ${state.weather.clouds}%'),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 10),
+                          const Divider(),
+                          const SizedBox(height: 10),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Column(
+                                  children: [
+                                    const Text('Ground Level'),
+                                    Text('🌏 ${state.weather.grndLevel}hPa'),
+                                  ],
+                                ),
+                              ),
+                              Expanded(
+                                child: Column(
+                                  children: [
+                                    const Text('Sea Level'),
+                                    Text('🌊 ${state.weather.seaLevel}hPa'),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 10),
+                          const Divider(),
+                          const SizedBox(height: 10),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Column(
+                                  children: [
+                                    const Text('Wind Speed'),
+                                    Text('🌬️ ${state.weather.windSpeed} km/h'),
+                                  ],
+                                ),
+                              ),
+                              Expanded(
+                                child: Column(
+                                  children: [
+                                    const Text('Wind Degree'),
+                                    Text('🧭 ${state.weather.windDeg}°'),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 );

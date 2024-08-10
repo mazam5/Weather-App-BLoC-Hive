@@ -67,12 +67,12 @@ class AuthCubit extends Cubit<AuthState> {
       await AutoRouter.of(context).replace(const WeatherRoute());
     } on FirebaseAuthException catch (e) {
       emit(AuthFailure(e.message ?? 'An error occurred'));
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          backgroundColor: Colors.red,
-          content: Text('An error occurred'),
-        ),
-      );
+      // ScaffoldMessenger.of(context).showSnackBar(
+      //   const SnackBar(
+      //     backgroundColor: Colors.red,
+      //     content: Text('An error occurred'),
+      //   ),
+      // );
     }
     _clearControllers();
     emit(AuthInitial());
@@ -105,7 +105,7 @@ class AuthCubit extends Cubit<AuthState> {
     emit(AuthInitial());
   }
 
-  void togglePassVisibility(int index) {
+  togglePassVisibility(int index) {
     if (index == 1) {
       passObscure1 = !passObscure1;
     } else {

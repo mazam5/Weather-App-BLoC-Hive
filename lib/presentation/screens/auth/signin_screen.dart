@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:weather_app/application/blocs/auth/auth_cubit.dart';
 import 'package:weather_app/presentation/routes/app_router.gr.dart';
+import 'package:weather_app/presentation/widgets/my_textfield.dart';
 
 @RoutePage()
 class SignInForm extends StatefulWidget {
@@ -38,62 +39,32 @@ class _LoginFormState extends State<SignInForm> {
                           ),
                         ),
                       ),
-                      Container(
-                        height: 60,
-                        decoration: BoxDecoration(
-                          border: Border.all(color: Colors.grey),
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: TextFormField(
-                          key: const ValueKey('email'),
-                          controller: context.read<AuthCubit>().emailController,
-                          keyboardType: TextInputType.emailAddress,
-                          decoration: const InputDecoration(
-                            labelText: 'Email',
-                            prefixIcon: Icon(Icons.email),
-                            border: InputBorder.none,
-                          ),
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please enter your email';
-                            } else if (!value.contains('@')) {
-                              return 'Please enter a valid email';
-                            }
-                            return null;
-                          },
-                        ),
+                      myTextField(
+                        key: const ValueKey('email'),
+                        textInputAction: TextInputAction.next,
+                        controller: context.read<AuthCubit>().emailController,
+                        keyboardType: TextInputType.emailAddress,
+                        labelText: 'Email',
+                        prefixIcon: Icons.email,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter your email';
+                          } else if (!value.contains('@')) {
+                            return 'Please enter a valid email';
+                          }
+                          return null;
+                        },
                       ),
                       const SizedBox(height: 16),
-                      Container(
-                        height: 60,
-                        decoration: BoxDecoration(
-                          border: Border.all(color: Colors.grey),
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: TextFormField(
+                      myTextField(
                           key: const ValueKey('password'),
+                          textInputAction: TextInputAction.done,
                           controller:
                               context.read<AuthCubit>().passwordController,
-                          decoration: InputDecoration(
-                            prefixIcon: const Icon(Icons.lock_person_rounded),
-                            labelText: 'Password',
-                            border: InputBorder.none,
-                            suffix: IconButton(
-                              onPressed: () {
-                                context
-                                    .read<AuthCubit>()
-                                    .togglePassVisibility(1);
-                              },
-                              icon: Icon(
-                                context.read<AuthCubit>().passObscure1
-                                    ? Icons.visibility
-                                    : Icons.visibility_off,
-                              ),
-                              color: Colors.black,
-                            ),
-                          ),
-                          obscureText: context.read<AuthCubit>().passObscure1,
                           keyboardType: TextInputType.visiblePassword,
+                          labelText: 'Password',
+                          prefixIcon: Icons.lock_person_rounded,
+                          obscureText: context.read<AuthCubit>().passObscure1,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Please enter your password';
@@ -102,8 +73,9 @@ class _LoginFormState extends State<SignInForm> {
                             }
                             return null;
                           },
-                        ),
-                      ),
+                          suffix: () {
+                            context.read<AuthCubit>().togglePassVisibility(1);
+                          }),
                       Container(
                         margin: const EdgeInsets.only(top: 16),
                         width: double.infinity,
@@ -127,7 +99,8 @@ class _LoginFormState extends State<SignInForm> {
                             }
                           },
                           child: state is AuthLoading
-                              ? const CircularProgressIndicator()
+                              ? const CircularProgressIndicator(
+                                  color: Colors.white)
                               : const Text('Sign In'),
                         ),
                       ),

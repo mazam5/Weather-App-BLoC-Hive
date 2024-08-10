@@ -43,23 +43,34 @@ class _AddCityState extends State<AddCity> {
                         children: [
                           Expanded(
                             flex: 2,
-                            child: TextFormField(
-                              controller: context
-                                  .read<WeatherBloc>()
-                                  .searchCityController,
-                              decoration: const InputDecoration(
-                                hintText: 'City Name',
+                            child: Container(
+                              height: 60,
+                              decoration: BoxDecoration(
+                                border: Border.all(color: Colors.grey),
+                                borderRadius: BorderRadius.circular(8),
                               ),
-                              onChanged: (value) {
-                                context
+                              child: TextFormField(
+                                key: const ValueKey('email'),
+                                keyboardType: TextInputType.emailAddress,
+                                controller: context
                                     .read<WeatherBloc>()
-                                    .searchCityController
-                                    .text = value;
-                                print(value);
-                              },
+                                    .searchCityController,
+                                onChanged: (value) {
+                                  context
+                                      .read<WeatherBloc>()
+                                      .searchCityController
+                                      .text = value;
+                                },
+                                decoration: const InputDecoration(
+                                  labelText: 'e.g. Lagos',
+                                  prefixIcon: Icon(Icons.location_city_rounded),
+                                  border: InputBorder.none,
+                                ),
+                              ),
                             ),
                           ),
-                          ElevatedButton(
+                          const SizedBox(width: 16),
+                          FilledButton.icon(
                             onPressed: () {
                               context.read<WeatherBloc>().add(
                                     FetchWeatherByCityName(
@@ -70,7 +81,8 @@ class _AddCityState extends State<AddCity> {
                                         context),
                                   );
                             },
-                            child: const Text('Add'),
+                            icon: const Icon(Icons.search),
+                            label: const Text('Search'),
                           ),
                         ],
                       ),
