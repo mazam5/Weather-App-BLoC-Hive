@@ -116,13 +116,15 @@ class _LoginFormState extends State<SignInForm> {
                                     padding: const EdgeInsets.all(16),
                                   ),
                                   onPressed: () {
-                                    if (context
-                                        .read<AuthCubit>()
-                                        .formKey
-                                        .currentState!
-                                        .validate()) {
-                                      context.read<AuthCubit>().signin(context);
-                                    }
+                                    context
+                                            .read<AuthCubit>()
+                                            .formKey
+                                            .currentState!
+                                            .validate()
+                                        ? context
+                                            .read<AuthCubit>()
+                                            .signin(context)
+                                        : null;
                                   },
                                   child: state is AuthLoading
                                       ? const CircularProgressIndicator(

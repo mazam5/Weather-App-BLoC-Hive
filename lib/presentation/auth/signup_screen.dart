@@ -150,15 +150,15 @@ class _SignUpState extends State<SignUpForm> {
                                       padding: const EdgeInsets.all(16),
                                     ),
                                     onPressed: () {
-                                      if (context
-                                          .read<AuthCubit>()
-                                          .formKey
-                                          .currentState!
-                                          .validate()) {
-                                        context
-                                            .read<AuthCubit>()
-                                            .signup(context);
-                                      }
+                                      context
+                                              .read<AuthCubit>()
+                                              .formKey
+                                              .currentState!
+                                              .validate()
+                                          ? context
+                                              .read<AuthCubit>()
+                                              .signup(context)
+                                          : null;
                                     },
                                     child: state is AuthLoading
                                         ? const CircularProgressIndicator(

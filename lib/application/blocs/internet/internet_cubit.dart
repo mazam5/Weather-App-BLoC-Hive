@@ -29,6 +29,10 @@ class InternetCubit extends Cubit<InternetStatus> {
 
   Stream<InternetStatus> get internetStatus =>
       _connectivity.onConnectivityChanged
-          .map((event) => _getStatus(event.first))
-          .map((event) => InternetStatus(event));
+          .map(
+            (event) => _getStatus(event.first),
+          )
+          .map(
+            (event) => InternetStatus(event),
+          );
 }

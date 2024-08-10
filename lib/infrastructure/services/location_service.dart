@@ -1,6 +1,6 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:weather_app/application/blocs/weather/weather_bloc.dart';
 
 void _showErrorDialog(String message, BuildContext context) {
   showDialog(
@@ -10,8 +10,10 @@ void _showErrorDialog(String message, BuildContext context) {
       content: Text(message),
       actions: [
         TextButton(
-          onPressed: () =>
-              {Navigator.of(context).pop(), Geolocator.openLocationSettings()},
+          onPressed: () => {
+            AutoRouter.of(context).back(),
+            Geolocator.openLocationSettings()
+          },
           child: const Text('Open'),
         ),
       ],
@@ -49,7 +51,8 @@ Future<Position> determineLocation(BuildContext context) async {
     return Future.error(
         'Location permissions are permanently denied, we cannot request permissions.');
   }
-  Position position = await Geolocator.getCurrentPosition();
-  FetchWeatherByGeolocation(position);
-  return position;
+  // Position position = await Geolocator.getCurrentPosition();
+  // FetchWeatherByGeolocation(position);
+  print('Location permissions are granted');
+  return await Geolocator.getCurrentPosition();
 }

@@ -20,12 +20,12 @@ class FetchWeatherByGeolocation extends WeatherEvent {
 // Event for fetching weather by city name
 class FetchWeatherByCityName extends WeatherEvent {
   final String cityName;
-  final BuildContext context;
+  // final BuildContext context;
 
-  const FetchWeatherByCityName(this.cityName, this.context);
+  const FetchWeatherByCityName(this.cityName);
 
   @override
-  List<Object> get props => [cityName, context];
+  List<Object> get props => [cityName];
 }
 
 class FetchFromHive extends WeatherEvent {

@@ -39,36 +39,12 @@ class _AddCityState extends State<AddCity> {
                   children: [
                     const SizedBox(height: 16),
                     Form(
+                      key: context.read<WeatherBloc>().formKey,
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Expanded(
                             flex: 2,
-                            // child: Container(
-                            //   height: 60,
-                            //   decoration: BoxDecoration(
-                            //     border: Border.all(color: Colors.grey),
-                            //     borderRadius: BorderRadius.circular(8),
-                            //   ),
-                            //   child: TextFormField(
-                            //     key: const ValueKey('email'),
-                            //     keyboardType: TextInputType.emailAddress,
-                            //     controller: context
-                            //         .read<WeatherBloc>()
-                            //         .searchCityController,
-                            //     onChanged: (value) {
-                            //       context
-                            //           .read<WeatherBloc>()
-                            //           .searchCityController
-                            //           .text = value;
-                            //     },
-                            //     decoration: const InputDecoration(
-                            //       labelText: 'e.g. Lagos',
-                            //       prefixIcon: Icon(Icons.location_city_rounded),
-                            //       border: InputBorder.none,
-                            //     ),
-                            //   ),
-                            // ),
                             child: myTextField(
                               key: const Key('search'),
                               labelText: 'Search City',
@@ -86,16 +62,16 @@ class _AddCityState extends State<AddCity> {
                               },
                             ),
                           ),
-                          const SizedBox(width: 16),
                           FilledButton.icon(
                             onPressed: () {
                               context.read<WeatherBloc>().add(
                                     FetchWeatherByCityName(
-                                        context
-                                            .read<WeatherBloc>()
-                                            .searchCityController
-                                            .text,
-                                        context),
+                                      context
+                                          .read<WeatherBloc>()
+                                          .searchCityController
+                                          .text,
+                                      // context,
+                                    ),
                                   );
                             },
                             icon: const Icon(Icons.search),
@@ -114,16 +90,21 @@ class _AddCityState extends State<AddCity> {
                         for (var city in popularCities)
                           ChoiceChip(
                             label: SizedBox(
-                                width: 80,
-                                child: Text(
-                                  city,
-                                  textAlign: TextAlign.center,
-                                )),
+                              width: 80,
+                              child: Text(
+                                city,
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
                             selected: false,
                             onSelected: (value) {
-                              context.read<WeatherBloc>().selectedCity = city;
+                              AutoRouter.of(context).back();
+                              // context.read<WeatherBloc>().selectedCity = city;
                               context.read<WeatherBloc>().add(
-                                    FetchWeatherByCityName(city, context),
+                                    FetchWeatherByCityName(
+                                      city,
+                                      // context,
+                                    ),
                                   );
                             },
                           )

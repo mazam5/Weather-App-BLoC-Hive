@@ -46,7 +46,6 @@ class AuthCubit extends Cubit<AuthState> {
 
   void signup(BuildContext context) async {
     emit(AuthLoading());
-    formKey.currentState!.validate();
     try {
       emit(AuthLoading());
       UserCredential? userCredential =
@@ -67,12 +66,6 @@ class AuthCubit extends Cubit<AuthState> {
       await AutoRouter.of(context).replace(const WeatherRoute());
     } on FirebaseAuthException catch (e) {
       emit(AuthFailure(e.message ?? 'An error occurred'));
-      // ScaffoldMessenger.of(context).showSnackBar(
-      //   const SnackBar(
-      //     backgroundColor: Colors.red,
-      //     content: Text('An error occurred'),
-      //   ),
-      // );
     }
     _clearControllers();
     emit(AuthInitial());

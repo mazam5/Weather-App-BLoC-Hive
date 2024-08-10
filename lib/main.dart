@@ -10,6 +10,7 @@ import 'application/blocs/internet/internet_cubit.dart';
 import 'application/blocs/weather/weather_bloc.dart';
 import 'core/firebase_options.dart';
 import 'domain/repositories/boxes.dart';
+import 'infrastructure/di/injection_container.dart';
 import 'infrastructure/local/weather_hive.dart';
 import 'presentation/routes/app_router.dart';
 import 'infrastructure/di/injection_container.dart' as di;
@@ -36,16 +37,17 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    AppRouter appRouter = AppRouter();
     return MultiBlocProvider(
       providers: [
         BlocProvider<AuthCubit>(
           create: (context) => AuthCubit(),
         ),
         BlocProvider<WeatherBloc>(
-          create: (context) => WeatherBloc(weatherApiCalls: di.sl()),
+          create: (context) => WeatherBloc(),
         ),
-        BlocProvider<InternetCubit>(create: (context) => InternetCubit()),
+        BlocProvider<InternetCubit>(
+          create: (context) => InternetCubit(),
+        ),
       ],
       child: MaterialApp.router(
         debugShowCheckedModeBanner: false,
@@ -54,7 +56,7 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        routerConfig: appRouter.config(),
+        routerConfig: sl<AppRouter>().config(),
       ),
     );
   }
