@@ -2,12 +2,12 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:weather_app/application/blocs/internet/internet_cubit.dart';
 
-import '../../../application/blocs/auth/auth_cubit.dart';
-import '../../../application/blocs/weather/weather_bloc.dart';
-import '../../../domain/services/location_service.dart';
-import '../../routes/app_router.gr.dart';
+import '../../application/blocs/auth/auth_cubit.dart';
+import '../../application/blocs/internet/internet_cubit.dart';
+import '../../application/blocs/weather/weather_bloc.dart';
+import '../../infrastructure/services/location_service.dart';
+import '../routes/app_router.gr.dart';
 
 @RoutePage()
 class WeatherScreen extends StatefulWidget {

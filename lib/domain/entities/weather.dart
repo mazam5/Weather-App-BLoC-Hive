@@ -1,7 +1,7 @@
-import 'package:weather_app/domain/entities/weather_model.dart';
+import 'package:weather_app/infrastructure/local/weather_hive.dart';
 
-WeatherModel getWeather(Map<String, dynamic> data) {
-  return WeatherModel(
+WeatherHive getWeather(Map<String, dynamic> data) {
+  return WeatherHive(
     country: data['sys']['country'] ?? '',
     description: data['weather'][0]['description'] ?? 'No description',
     icon: data['weather'][0]['icon'] ?? '',
@@ -27,10 +27,3 @@ WeatherModel getWeather(Map<String, dynamic> data) {
     lastUpdated: DateTime.now(),
   );
 }
-
-// DateTime getLocalTime(int timestamp, int timezoneOffset) {
-//   DateTime utcDateTime =
-//       DateTime.fromMillisecondsSinceEpoch(timestamp * 1000, isUtc: true);
-//   print(utcDateTime.add(Duration(seconds: timezoneOffset)));
-//   return utcDateTime.add(Duration(seconds: timezoneOffset));
-// }

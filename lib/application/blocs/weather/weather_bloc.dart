@@ -1,37 +1,30 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:bloc/bloc.dart';
-import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:weather_app/core/constants.dart';
-import 'package:weather_app/domain/entities/weather_model.dart';
 import 'package:weather_app/domain/repositories/boxes.dart';
-import 'package:weather_app/domain/value_objects/helper.dart';
+import 'package:weather_app/infrastructure/local/weather_hive.dart';
+import 'package:weather_app/infrastructure/services/weather_api_calls.dart';
 
 part 'weather_event.dart';
 part 'weather_state.dart';
 
 class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
+  final WeatherApiCalls weatherApiCalls;
   TextEditingController searchCityController = TextEditingController();
   String selectedCity = '';
-  final Dio dio = Dio();
-  WeatherBloc() : super(const WeatherInitial()) {
+
+  WeatherBloc({required this.weatherApiCalls}) : super(const WeatherInitial()) {
     on<FetchWeatherByGeolocation>((event, emit) async {
       emit(const WeatherLoading());
       try {
-        final response = await dio.get(
-            'https://api.openweathermap.org/data/2.5/weather',
-            queryParameters: {
-              'lat': event.position.latitude,
-              'lon': event.position.longitude,
-              'appId': openWeatherApiKey,
-              'units': 'metric',
-            });
-        final weather = getWeather(response.data);
+        final weather = await weatherApiCalls.fetchWeatherByGeolocation(
+          event.position.latitude,
+          event.position.longitude,
+        );
         emit(WeatherSuccess(weather));
         await weatherBox.put('current', weather);
-        print('Weather: $weather');
       } catch (e) {
         print('Error: $e');
         emit(const WeatherFailure('Failed to fetch weather by geolocation'));
@@ -39,22 +32,14 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
     });
 
     on<FetchWeatherByCityName>((event, emit) async {
+      emit(const WeatherLoading());
       try {
-        emit(const WeatherLoading());
         AutoRouter.of(event.context).back();
-        final response = await dio.get(
-          'https://api.openweathermap.org/data/2.5/weather',
-          queryParameters: {
-            'q': event.cityName,
-            'appId': openWeatherApiKey,
-            'units': 'metric',
-          },
+        final weather = await weatherApiCalls.fetchWeatherByCityName(
+          event.cityName,
         );
-        final weather = getWeather(response.data);
         emit(WeatherSuccess(weather));
         await weatherBox.put('current', weather);
-        print('Weather: $weather');
-
         searchCityController.clear();
         selectedCity = '';
       } catch (e) {

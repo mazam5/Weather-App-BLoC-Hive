@@ -1,9 +1,9 @@
 import 'package:hive/hive.dart';
 
-part 'weather_model.g.dart';
+part 'weather_hive.g.dart';
 
 @HiveType(typeId: 0)
-class WeatherModel {
+class WeatherHive {
   @HiveField(0)
   final String main;
 
@@ -70,7 +70,7 @@ class WeatherModel {
   @HiveField(21)
   final DateTime lastUpdated;
 
-  WeatherModel({
+  WeatherHive({
     required this.name,
     required this.country,
     required this.main,

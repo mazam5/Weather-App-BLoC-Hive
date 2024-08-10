@@ -1,22 +1,22 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'weather_model.dart';
+part of 'weather_hive.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class WeatherModelAdapter extends TypeAdapter<WeatherModel> {
+class WeatherHiveAdapter extends TypeAdapter<WeatherHive> {
   @override
   final int typeId = 0;
 
   @override
-  WeatherModel read(BinaryReader reader) {
+  WeatherHive read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return WeatherModel(
+    return WeatherHive(
       name: fields[19] as String,
       country: fields[18] as String,
       main: fields[0] as String,
@@ -43,7 +43,7 @@ class WeatherModelAdapter extends TypeAdapter<WeatherModel> {
   }
 
   @override
-  void write(BinaryWriter writer, WeatherModel obj) {
+  void write(BinaryWriter writer, WeatherHive obj) {
     writer
       ..writeByte(22)
       ..writeByte(0)
@@ -98,7 +98,7 @@ class WeatherModelAdapter extends TypeAdapter<WeatherModel> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is WeatherModelAdapter &&
+      other is WeatherHiveAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

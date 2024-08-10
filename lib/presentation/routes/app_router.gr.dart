@@ -9,16 +9,12 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:auto_route/auto_route.dart' as _i7;
-import 'package:weather_app/presentation/screens/auth/signin_screen.dart'
-    as _i3;
-import 'package:weather_app/presentation/screens/auth/signup_screen.dart'
-    as _i4;
-import 'package:weather_app/presentation/screens/home/home_screen.dart' as _i6;
-import 'package:weather_app/presentation/screens/loading/loading.dart' as _i2;
-import 'package:weather_app/presentation/screens/location/location_screen.dart'
-    as _i1;
-import 'package:weather_app/presentation/screens/splash/splash_screen.dart'
-    as _i5;
+import 'package:weather_app/presentation/auth/loading.dart' as _i2;
+import 'package:weather_app/presentation/auth/signin_screen.dart' as _i3;
+import 'package:weather_app/presentation/auth/signup_screen.dart' as _i4;
+import 'package:weather_app/presentation/home/home_screen.dart' as _i6;
+import 'package:weather_app/presentation/location/location_screen.dart' as _i1;
+import 'package:weather_app/presentation/splash/splash_screen.dart' as _i5;
 
 /// generated route for
 /// [_i1.AddCity]
