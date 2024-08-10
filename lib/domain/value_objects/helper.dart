@@ -1,34 +1,36 @@
 import 'package:weather_app/domain/entities/weather_model.dart';
 
-getWeather(data) {
-  final weather = WeatherModel(
-    country: data['sys']['country'],
-    description: data['weather'][0]['description'],
-    icon: data['weather'][0]['icon'],
-    visibility: data['visibility'],
-    name: data['name'],
+WeatherModel getWeather(Map<String, dynamic> data) {
+  return WeatherModel(
+    country: data['sys']['country'] ?? '',
+    description: data['weather'][0]['description'] ?? 'No description',
+    icon: data['weather'][0]['icon'] ?? '',
+    visibility: data['visibility'] ?? 0,
+    name: data['name'] ?? 'Unknown location',
     timezone: data['timezone'],
-    main: data['weather'][0]['main'],
-    clouds: data['clouds']['all'],
-    dt: DateTime.fromMillisecondsSinceEpoch(
-      data['dt'] * 1000 + data['timezone'] * 1000,
-    ),
-    sunset: DateTime.fromMillisecondsSinceEpoch(
-      data['sys']['sunset'] * 1000 + data['timezone'] * 1000,
-    ),
-    sunrise: DateTime.fromMillisecondsSinceEpoch(
-      data['sys']['sunrise'] * 1000 + data['timezone'] * 1000,
-    ),
-    windDeg: data['wind']['deg'],
-    grndLevel: data['main']['grnd_level'],
-    seaLevel: data['main']['sea_level'],
-    humidity: data['main']['humidity'],
-    pressure: data['main']['pressure'],
-    temp: data['main']['temp'].toDouble(),
-    feelsLike: data['main']['feels_like'].toDouble(),
-    tempMin: data['main']['temp_min'].toDouble(),
-    tempMax: data['main']['temp_max'].toDouble(),
-    windSpeed: data['wind']['speed'].toDouble(),
+    main: data['weather'][0]['main'] ?? 'Unknown',
+    clouds: data['clouds']['all'] ?? 0,
+    windDeg: data['wind']['deg'] ?? 0,
+    grndLevel: data['main']['grnd_level'] ?? 0,
+    seaLevel: data['main']['sea_level'] ?? 0,
+    humidity: data['main']['humidity'] ?? 0,
+    pressure: data['main']['pressure'] ?? 0,
+    temp: (data['main']['temp'] ?? 0).toDouble(),
+    feelsLike: (data['main']['feels_like'] ?? 0).toDouble(),
+    tempMin: (data['main']['temp_min'] ?? 0).toDouble(),
+    tempMax: (data['main']['temp_max'] ?? 0).toDouble(),
+    windSpeed: (data['wind']['speed'] ?? 0).toDouble(),
+    sunrise:
+        DateTime.fromMillisecondsSinceEpoch((data['sys']['sunrise']) * 1000),
+    sunset: DateTime.fromMillisecondsSinceEpoch((data['sys']['sunset']) * 1000),
+    dt: DateTime.fromMillisecondsSinceEpoch((data['dt']) * 1000),
+    lastUpdated: DateTime.now(),
   );
-  return weather;
 }
+
+// DateTime getLocalTime(int timestamp, int timezoneOffset) {
+//   DateTime utcDateTime =
+//       DateTime.fromMillisecondsSinceEpoch(timestamp * 1000, isUtc: true);
+//   print(utcDateTime.add(Duration(seconds: timezoneOffset)));
+//   return utcDateTime.add(Duration(seconds: timezoneOffset));
+// }

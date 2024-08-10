@@ -38,13 +38,14 @@ class WeatherModelAdapter extends TypeAdapter<WeatherModel> {
       seaLevel: fields[9] as int,
       grndLevel: fields[10] as int,
       timezone: fields[20] as int,
+      lastUpdated: fields[21] as DateTime,
     );
   }
 
   @override
   void write(BinaryWriter writer, WeatherModel obj) {
     writer
-      ..writeByte(21)
+      ..writeByte(22)
       ..writeByte(0)
       ..write(obj.main)
       ..writeByte(1)
@@ -86,7 +87,9 @@ class WeatherModelAdapter extends TypeAdapter<WeatherModel> {
       ..writeByte(19)
       ..write(obj.name)
       ..writeByte(20)
-      ..write(obj.timezone);
+      ..write(obj.timezone)
+      ..writeByte(21)
+      ..write(obj.lastUpdated);
   }
 
   @override

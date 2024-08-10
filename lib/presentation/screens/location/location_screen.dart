@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:weather_app/application/blocs/weather/weather_bloc.dart';
 import 'package:weather_app/core/constants.dart';
+import 'package:weather_app/presentation/widgets/my_textfield.dart';
 
 @RoutePage()
 class AddCity extends StatefulWidget {
@@ -43,30 +44,46 @@ class _AddCityState extends State<AddCity> {
                         children: [
                           Expanded(
                             flex: 2,
-                            child: Container(
-                              height: 60,
-                              decoration: BoxDecoration(
-                                border: Border.all(color: Colors.grey),
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child: TextFormField(
-                                key: const ValueKey('email'),
-                                keyboardType: TextInputType.emailAddress,
-                                controller: context
-                                    .read<WeatherBloc>()
-                                    .searchCityController,
-                                onChanged: (value) {
-                                  context
-                                      .read<WeatherBloc>()
-                                      .searchCityController
-                                      .text = value;
-                                },
-                                decoration: const InputDecoration(
-                                  labelText: 'e.g. Lagos',
-                                  prefixIcon: Icon(Icons.location_city_rounded),
-                                  border: InputBorder.none,
-                                ),
-                              ),
+                            // child: Container(
+                            //   height: 60,
+                            //   decoration: BoxDecoration(
+                            //     border: Border.all(color: Colors.grey),
+                            //     borderRadius: BorderRadius.circular(8),
+                            //   ),
+                            //   child: TextFormField(
+                            //     key: const ValueKey('email'),
+                            //     keyboardType: TextInputType.emailAddress,
+                            //     controller: context
+                            //         .read<WeatherBloc>()
+                            //         .searchCityController,
+                            //     onChanged: (value) {
+                            //       context
+                            //           .read<WeatherBloc>()
+                            //           .searchCityController
+                            //           .text = value;
+                            //     },
+                            //     decoration: const InputDecoration(
+                            //       labelText: 'e.g. Lagos',
+                            //       prefixIcon: Icon(Icons.location_city_rounded),
+                            //       border: InputBorder.none,
+                            //     ),
+                            //   ),
+                            // ),
+                            child: myTextField(
+                              key: const Key('search'),
+                              labelText: 'Search City',
+                              prefixIcon: Icons.location_city_rounded,
+                              controller: context
+                                  .read<WeatherBloc>()
+                                  .searchCityController,
+                              keyboardType: TextInputType.name,
+                              textInputAction: TextInputAction.done,
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  return 'Please enter a city';
+                                }
+                                return null;
+                              },
                             ),
                           ),
                           const SizedBox(width: 16),

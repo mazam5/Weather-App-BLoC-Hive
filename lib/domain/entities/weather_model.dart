@@ -67,6 +67,9 @@ class WeatherModel {
   @HiveField(20)
   final int timezone;
 
+  @HiveField(21)
+  final DateTime lastUpdated;
+
   WeatherModel({
     required this.name,
     required this.country,
@@ -89,5 +92,6 @@ class WeatherModel {
     required this.seaLevel,
     required this.grndLevel,
     required this.timezone,
+    required this.lastUpdated,
   });
 }

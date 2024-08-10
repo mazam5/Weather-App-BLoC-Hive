@@ -30,7 +30,8 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
             });
         final weather = getWeather(response.data);
         emit(WeatherSuccess(weather));
-        weatherBox.put('current', weather);
+        await weatherBox.put('current', weather);
+        print('Weather: $weather');
       } catch (e) {
         print('Error: $e');
         emit(const WeatherFailure('Failed to fetch weather by geolocation'));
@@ -51,11 +52,23 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
         );
         final weather = getWeather(response.data);
         emit(WeatherSuccess(weather));
-        weatherBox.put('current', weather);
+        await weatherBox.put('current', weather);
+        print('Weather: $weather');
+
         searchCityController.clear();
         selectedCity = '';
       } catch (e) {
         emit(const WeatherFailure('Failed to fetch weather by city name'));
+      }
+    });
+
+    on<FetchFromHive>((event, emit) {
+      emit(const WeatherLoading());
+      final weather = weatherBox.get('current');
+      if (weather != null) {
+        emit(WeatherSuccess(weather));
+      } else {
+        emit(const WeatherFailure('Failed to fetch weather from hive'));
       }
     });
   }

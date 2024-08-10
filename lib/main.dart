@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:weather_app/application/blocs/internet/internet_cubit.dart';
 
 // local imports
 import 'application/blocs/auth/auth_cubit.dart';
@@ -41,6 +42,7 @@ class MyApp extends StatelessWidget {
         BlocProvider<WeatherBloc>(
           create: (context) => WeatherBloc(),
         ),
+        BlocProvider<InternetCubit>(create: (context) => InternetCubit()),
       ],
       child: MaterialApp.router(
         debugShowCheckedModeBanner: false,

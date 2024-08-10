@@ -27,3 +27,7 @@ class FetchWeatherByCityName extends WeatherEvent {
   @override
   List<Object> get props => [cityName, context];
 }
+
+class FetchFromHive extends WeatherEvent {
+  const FetchFromHive();
+}

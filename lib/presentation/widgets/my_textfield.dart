@@ -36,7 +36,7 @@ Widget myTextField({
       textInputAction: textInputAction,
       keyboardType: keyboardType,
       obscureText: obscureText,
-      validator: (value) => validator(value),
+      validator: (value) => validator(value!),
       controller: controller,
     ),
   );
