@@ -10,7 +10,8 @@ part 'auth_state.dart';
 class AuthCubit extends Cubit<AuthState> {
   AuthCubit() : super(AuthInitial());
 
-  final formKey = GlobalKey<FormState>();
+  final formKey1 = GlobalKey<FormState>();
+  final formKey2 = GlobalKey<FormState>();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
@@ -111,6 +112,7 @@ class AuthCubit extends Cubit<AuthState> {
     emailController.clear();
     passwordController.clear();
     confirmPasswordController.clear();
-    formKey.currentState!.reset();
+    formKey1.currentState!.reset();
+    formKey2.currentState!.reset();
   }
 }

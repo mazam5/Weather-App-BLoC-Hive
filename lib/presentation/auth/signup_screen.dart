@@ -47,7 +47,7 @@ class _SignUpState extends State<SignUpForm> {
                   return Container(
                     margin: const EdgeInsets.all(20),
                     child: Form(
-                      key: context.read<AuthCubit>().formKey,
+                      key: context.read<AuthCubit>().formKey2,
                       child: state.status == ConnectionStatus.connected
                           ? Column(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -152,7 +152,7 @@ class _SignUpState extends State<SignUpForm> {
                                     onPressed: () {
                                       context
                                               .read<AuthCubit>()
-                                              .formKey
+                                              .formKey2
                                               .currentState!
                                               .validate()
                                           ? context

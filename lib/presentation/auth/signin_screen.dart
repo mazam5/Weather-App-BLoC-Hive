@@ -45,7 +45,7 @@ class _LoginFormState extends State<SignInForm> {
               child: BlocBuilder<InternetCubit, InternetStatus>(
                 builder: (context, state) {
                   return Form(
-                    key: context.read<AuthCubit>().formKey,
+                    key: context.read<AuthCubit>().formKey1,
                     child: state.status == ConnectionStatus.connected
                         ? Column(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -118,7 +118,7 @@ class _LoginFormState extends State<SignInForm> {
                                   onPressed: () {
                                     context
                                             .read<AuthCubit>()
-                                            .formKey
+                                            .formKey1
                                             .currentState!
                                             .validate()
                                         ? context
