@@ -5,7 +5,6 @@ This is a simple weather app built with Flutter. It uses the OpenWeatherMap API 
 - Get the current weather of your location
 - Get the weather of any city by searching for it
 - Get the weather of any city by selecting it from the list of cities
-- Get the weather of any city by selecting it from the map
 
 ## Screenshots
 
